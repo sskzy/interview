@@ -1,0 +1,17 @@
+# spring
+spring:
+  application:
+    name: study-spring-cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: study-spring-cloud-demo # 路由id
+          uri: lb://study-spring-cloud-demo # 服务名匹配路由 # lb负载均衡 后面是ip地址/服务名称
+          predicates: # 路由断言 判断请求地址是否符合规则条件
+            - Path=/study/** # 只要匹配路径开头就符合
+            - After=2020-01-20T06:06:06+08:00[Asia/Shanghai] # 允许请求时段限制
+      # - 具体参考 https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories
+
+# server
+server:
+  port: 5838
