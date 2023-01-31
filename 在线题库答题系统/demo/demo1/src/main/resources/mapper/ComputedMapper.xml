@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo2.mapper.ComputedMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo2.entity.po.Computed">
+            <id property="computedId" column="computed_id" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+            <result property="lessonId" column="lesson_id" jdbcType="VARCHAR"/>
+            <result property="moduleId" column="module_id" jdbcType="VARCHAR"/>
+            <result property="isFinish" column="is_finish" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        computed_id,user_id,lesson_id,
+        module_id,is_finish
+    </sql>
+</mapper>
