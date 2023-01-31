@@ -2,6 +2,10 @@
 
 这里我挑选了几个比较有代表性的生产项目或者练手项目
 
+后续其他项目我还要找找
+
+我觉得技术落后不且结构简单没什么代表性
+
 ### 1.spring-cloud和spring-cloud-2021.0.4
 
 [sskzy/spring-cloud (github.com)](https://github.com/sskzy/spring-cloud)
