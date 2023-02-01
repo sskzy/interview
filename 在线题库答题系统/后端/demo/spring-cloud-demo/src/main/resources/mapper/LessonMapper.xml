@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.study.demo.mapper.LessonMapper">
+
+    <resultMap id="BaseResultMap" type="org.study.demo.entity.po.Lesson">
+        <id property="lessonId" column="lesson_id" jdbcType="VARCHAR"/>
+        <result property="lessonName" column="lesson_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        lesson_id,lesson_name
+    </sql>
+
+    <resultMap id="HomePageSearchResultMap" type="org.study.demo.controller.vo.homepage.HomePageSearchVo">
+<!--        <association property="status" javaType="org.study.demo.controller.vo.Status">-->
+<!--            <result property="code" column="code"/>-->
+<!--        </association>-->
+        <result property="code" column="code"/>
+        <collection property="lessonList" ofType="org.study.demo.controller.vo.homepage.HomePageSearchVo$LessonItem">
+            <id property="lessonId" column="lesson_id" jdbcType="VARCHAR"/>
+            <result property="lessonName" column="lesson_name" jdbcType="VARCHAR"/>
+            <collection property="sectionList" ofType="org.study.demo.controller.vo.homepage.HomePageSearchVo$LessonItem$SectionItem">
+                <id property="sectionId" column="section_id" jdbcType="VARCHAR"/>
+                <result property="sectionName" column="section_name" jdbcType="VARCHAR"/>
+                <result property="isCompleted" column="isCompleted" jdbcType="BOOLEAN"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!-- HomePageSearchVo homePageSearch(@Param("lessonName") String lessonName); -->
+    <select id="homePageSearch" resultMap="HomePageSearchResultMap">
+        SELECT 0 as code,l.lesson_id, l.lesson_name, s.section_id, s.section_name, c.isCompleted
+        FROM  tbl_completed c, tbl_lesson l, tbl_section s
+        WHERE c.lesson_id = l.lesson_id AND c.section_id = s. section_id
+        AND l.lesson_name LIKE concat('%',#{lessonName},'%')
+    </select>
+</mapper>

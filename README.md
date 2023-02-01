@@ -1,11 +1,3 @@
-# interview
-
-这里我挑选了几个比较有代表性的生产项目或者练手项目
-
-后续其他项目我还要找找
-
-我觉得技术落后不且结构简单没什么代表性
-
 ### 1.spring-cloud和spring-cloud-2021.0.4
 
 [sskzy/spring-cloud (github.com)](https://github.com/sskzy/spring-cloud)
@@ -22,7 +14,7 @@ spring-cloud和spring-cloud-2021.0.4是微服务搭建代码
 ### 2.在线题库答题系统(2022年09月- 2022年10月)
 
 ```
-前后端分离开发(是我比较满意的代码) 
+前后端分离开发
 后端注册有基本的业务代码和后端网关
 前端除基础的访问和提交兼并域名拦截
 ```

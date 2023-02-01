@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.study.demo.mapper.QuestionMapper">
+
+    <resultMap id="BaseResultMap" type="org.study.demo.entity.po.Question">
+            <id property="questionId" column="question_id" jdbcType="VARCHAR"/>
+            <result property="sectionId" column="section_id" jdbcType="VARCHAR"/>
+            <result property="questionDetail" column="question_detail" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        question_id,section_id,question_detail
+    </sql>
+
+    <resultMap id="selectAllBySectionIdResultMap" type="org.study.demo.controller.vo.question.QuestionDataVo">
+        <result property="code" column="code"/>
+        <collection property="questionItemList" ofType="org.study.demo.controller.vo.question.QuestionDataVo$QuestionItem">
+            <result property="questionId" column="question_id"/>
+            <result property="questionDetail" column="question_detail"/>
+            <collection property="checkItemList" ofType="org.study.demo.controller.vo.question.QuestionDataVo$QuestionItem$CheckItem">
+                <result property="checkFlag" column="check_flag"/>
+                <result property="checkChoose" column="check_choose"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllBySectionId" resultMap="selectAllBySectionIdResultMap">
+            SELECT 0 as code,s.question_id,s.question_detail,c.check_choose,c.check_flag
+            FROM tbl_question s, tbl_check c
+            WHERE s.question_id = c.question_id
+            AND s.question_id IN (
+            SELECT question_id FROM tbl_question
+            WHERE section_id = #{sectionId}
+            )
+    </select>
+</mapper>

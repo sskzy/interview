@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.study.demo.mapper.UserInfoMapper">
+
+    <resultMap id="BaseResultMap" type="org.study.demo.entity.po.UserInfo">
+        <id property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="userAccount" column="user_account" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="userAvatarUrl" column="user_avatar_url" jdbcType="VARCHAR"/>
+        <result property="token" column="token" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,user_account,password,
+        username,user_avatar_url,token
+    </sql>
+
+    <!-- UserInfo completionUserInfo(@Param("userInfo") UserInfo userInfo); -->
+    <select id="completionUserInfo" resultMap="BaseResultMap">
+        select token
+        from tbl_user_info
+        where username = #{userInfo.username,jdbcType=VARCHAR}
+        AND password = #{userInfo.password,jdbcType=VARCHAR}
+    </select>
+
+    <!-- RegisterVo insertUserInfo(@Param("userInfo") UserInfo userInfo); -->
+    <insert id="insertUserInfo">
+        INSERT INTO tbl_user_info(`user_id`, `user_account`, `password`, `username`, `user_avatar_url`, `token`)
+        VALUES (#{userInfo.userId},#{userInfo.userAccount},#{userInfo.password},#{userInfo.username},#{userInfo.userAvatarUrl},#{userInfo.token})
+    </insert>
+
+    <!-- UserInfo selectUserIdByToken(@Param("token") String token); -->
+    <select id="selectUserIdByToken" resultMap="BaseResultMap">
+        select user_id
+        from tbl_user_info
+        where
+        token = #{token,jdbcType=VARCHAR}
+        LIMIT 1
+    </select>
+</mapper>

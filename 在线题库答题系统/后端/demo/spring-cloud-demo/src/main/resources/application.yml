@@ -1,0 +1,33 @@
+# spring
+spring:
+  #  database
+  datasource:
+    url: jdbc:mysql://localhost:3306/study?useUnicode=true&serverTimezone=UTC&characterEncoding=utf-8&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    # application
+  application:
+    name: study-spring-cloud-demo
+    # nacos
+  cloud:
+    nacos:
+      server-addr: localhost:8848 # 注册地址
+      discovery:
+        namespace: public # 命名空间id
+        group: DEFAULT_GROUP
+        cluster-name: FZ # 福州集群
+
+# server
+server:
+  port: 8081
+  servlet:
+    context-path: /study
+
+# mybatis-plus
+mybatis-plus:
+  type-aliases-package: org.study.demo.entity
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    # 开启SQL语句配置
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

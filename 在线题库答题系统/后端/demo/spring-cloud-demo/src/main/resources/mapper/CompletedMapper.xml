@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.study.demo.mapper.CompletedMapper">
+
+    <resultMap id="BaseResultMap" type="org.study.demo.entity.po.Completed">
+        <id property="completedId" column="completed_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="lessonId" column="lesson_id" jdbcType="VARCHAR"/>
+        <result property="sectionId" column="section_id" jdbcType="VARCHAR"/>
+        <result property="iscompleted" column="isCompleted" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        completed_id,user_id,lesson_id,
+        section_id,isCompleted
+    </sql>
+
+    <resultMap id="HomePageDataResultMap" type="org.study.demo.controller.vo.homepage.HomePageDataVo">
+        <result property="account" column="user_account" jdbcType="VARCHAR"/>
+        <result property="avatarUrl" column="user_avatar_url" jdbcType="VARCHAR"/>
+        <collection property="lessonList" ofType="org.study.demo.controller.vo.homepage.HomePageDataVo$LessonItem">
+            <id property="lessonId" column="lesson_id" jdbcType="VARCHAR"/>
+            <result property="lessonName" column="lesson_name" jdbcType="VARCHAR"/>
+            <collection property="sectionList" ofType="org.study.demo.controller.vo.homepage.HomePageDataVo$LessonItem$SectionItem">
+                <id property="sectionId" column="section_id" jdbcType="VARCHAR"/>
+                <result property="sectionName" column="section_name" jdbcType="VARCHAR"/>
+                <result property="isCompleted" column="isCompleted" jdbcType="BOOLEAN"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!-- HomePageDataVo HomePageData(@Param("userInfo") UserInfo userInfo); -->
+    <select id="HomePageData" resultMap="HomePageDataResultMap">
+        SELECT u.user_account, u.user_avatar_url, l.lesson_id, l.lesson_name, s.section_id, s.section_name, c.isCompleted
+        FROM tbl_user_info u, tbl_completed c, tbl_lesson l, tbl_section s
+        WHERE c.lesson_id = l.lesson_id AND c.section_id = s. section_id AND c.user_id = u.user_id
+        AND u.token = #{userInfo.token}
+    </select>
+
+    <!-- int insertLessonAndSection(@Param("completed") Completed completed); -->
+    <insert id="insertLessonAndSection">
+        INSERT INTO tbl_completed(`completed_id`,`user_id`,`lesson_id`,`section_id`)
+        VALUES (#{completed.completedId},#{completed.userId},#{completed.lessonId},#{completed.sectionId})
+    </insert>
+
+    <!-- Completed selectAllByLessonId(@Param("lessonId") String lessonId); -->
+    <select id="selectAllByLessonId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_completed
+        where
+        lesson_id = #{lessonId,jdbcType=VARCHAR}
+        LIMIT 1
+    </select>
+
+    <!-- int updateIsCompleted(@Param("updateCompletedRo") UpdateCompletedRo updateCompletedRo); -->
+    <update id="updateIsCompleted">
+        UPDATE tbl_completed
+        SET isCompleted = 1
+        WHERE user_id = (SELECT user_id FROM tbl_user_info WHERE token = #{updateCompletedRo.token} limit 1)
+        AND lesson_id = #{updateCompletedRo.lessonId} AND section_id = #{updateCompletedRo.sectionId}
+    </update>
+
+</mapper>

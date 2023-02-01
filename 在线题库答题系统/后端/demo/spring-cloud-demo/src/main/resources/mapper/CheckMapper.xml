@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.study.demo.mapper.CheckMapper">
+
+    <resultMap id="BaseResultMap" type="org.study.demo.entity.po.Check">
+            <id property="checkId" column="check_id" jdbcType="VARCHAR"/>
+            <result property="questionId" column="question_id" jdbcType="VARCHAR"/>
+            <result property="checkChoose" column="check_choose" jdbcType="VARCHAR"/>
+            <result property="checkFlag" column="check_flag" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        check_id,question_id,check_choose,
+        check_flag
+    </sql>
+</mapper>
